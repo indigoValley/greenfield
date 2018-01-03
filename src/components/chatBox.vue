@@ -56,7 +56,7 @@ export default {
     },
     mounted() {
       console.log(this.name);
-        const socket = io.connect('http://localhost:3001');
+        const socket = io.connect('http://localhost:8000');
 
 
         let message = document.getElementById('message');

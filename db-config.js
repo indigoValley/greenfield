@@ -1,18 +1,23 @@
 const Sequelize = require('sequelize');
 const passwordHash = require('password-hash');
 
-const sequelize = new Sequelize('dinner', 'buckeyedseminole', 'Opspark17', {
-  host: 'whoscomingtodinner.database.windows.net',
-  dialect: 'mssql',
-  dialectOptions: {
-    encrypt: true,
-  },
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000,
-  },
+const sequelize = new Sequelize('potlucky', 'root', '', {
+  host: '127.0.0.1',
+  dialect: 'mysql',
 });
+
+// const sequelize = new Sequelize('dinner', 'buckeyedseminole', 'Opspark17', {
+//   host: 'whoscomingtodinner.database.windows.net',
+//   dialect: 'mssql',
+//   dialectOptions: {
+//     encrypt: true,
+//   },
+//   pool: {
+//     max: 5,
+//     min: 0,
+//     idle: 10000,
+//   },
+// });
 
 sequelize.authenticate()
   .then(() => {
@@ -53,6 +58,8 @@ const User = sequelize.define('user', {
   },
 });
 
+User.sync();
+
 const Event = sequelize.define('event', {
   Name: {
     type: Sequelize.STRING,
@@ -91,6 +98,8 @@ const Event = sequelize.define('event', {
   },
 });
 
+Event.sync();
+
 const Message = sequelize.define('message', {
   Handle: {
     type: Sequelize.STRING,
@@ -102,6 +111,8 @@ const Message = sequelize.define('message', {
     type: Sequelize.STRING,
   },
 });
+
+Message.sync();
 
 // TEST DB-MESSAGE CREATION & QUERY
 // Message.sync().then(() => {
