@@ -33,7 +33,6 @@ export default {
             // console.log(this.mealId)
             this.$emit('hideList', [false, id])
             
-
         }
 
     }
