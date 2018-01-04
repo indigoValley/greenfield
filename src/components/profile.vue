@@ -8,11 +8,18 @@
                     <div class="card-background">
                         <img class="card-bkimg" alt="" src="https://scontent-dft4-3.xx.fbcdn.net/v/t1.0-9/10447708_10105496802291065_3147331436798292945_n.jpg?oh=ff797fce9d955f7447e90ee529022d1c&oe=5A420D4C">
                     </div>
+                    <!-- <div class="card-info">
+                    <span class="card-title">{{this.data.profileName}}</span> -->
                     <div class="useravatar">
+                    <span class="card-title"><b>{{this.data.profileName}}</b></span>
+                    <br>
                         <img alt="" v-bind:src="data.image">
                     </div>
+                    <br>
                     <div class="card-info">
-                        <span class="card-title">{{this.data.profileName}}</span>
+                    Email:<span class="card-title">{{this.data.profileEmail}}</span>
+                    Current City: <span class="card-title">{{this.data.profileCity}}</span>
+                    Date of birth: <span class="card-title">{{this.data.birthday}}</span>
                     </div>
                 </div>
             </div>
@@ -20,16 +27,16 @@
         <b-row>
             <!-- profile info -->
             <b-col cols="9" class="info">
-                <p>
+                <!-- <p>
                     <span class="title">Email:</span> {{this.data.profileEmail}}</p>
                 <p>
                     <span class="title">Current City:</span> {{this.data.profileCity}}</p>
                 <p>
-                    <span class="title">Date of birth:</span> {{this.data.birthday}}</p>
-                <!-- <p>
+                    <span class="title">Date of birth:</span> {{this.data.birthday}}</p> -->
+                <p>
                     <span class="title">Host Rating:</span> {{this.data.profileHR}}</p>
                 <p>
-                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p> -->
+                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p>
             </b-col>
             <b-col class='profile-buttons'>
                 <h4>Notifications:</h4>
