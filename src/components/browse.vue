@@ -1,6 +1,23 @@
 <template>
-    <div class="google-map" :id="mapName">
-    </div>
+    <b-container>
+        <b-row>
+            <b-col>
+                <input v-model="query" placeholder="find a potluck">
+                <b-button size="sm" variant="outline-warning" :query="query" v-on:click="potLuckies.push(query)">
+                Search
+                </b-button>
+                <br>
+                <br>
+                PotLuckies
+                <ul id="example-1">
+                    <li v-for="pot in potLuckies">{{pot}}</li>
+                </ul>
+            </b-col>
+            <b-col>
+                <div class="google-map" :id="mapName"></div>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 <script>
 window.clickMe = () => {
@@ -23,6 +40,8 @@ export default {
             map: null,
             bounds: null,
             markers: [],
+
+            potLuckies: ['hot doggin', 'pizza party', 'borsht bonnanza', 'pickle parade', 'apertif afterparty']
         }
     },
     methods:{
@@ -97,8 +116,8 @@ export default {
 </script>
 <style scoped>
 .google-map {
-    width: 800px;
-    height: 600px;
+    width: 700px;
+    height: 500px;
     margin: 0 auto;
     background: gray;
 }

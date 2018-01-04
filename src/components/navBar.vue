@@ -32,7 +32,7 @@ export default {
 
 <style scoped>
 .topnav {
-    background-color: #333;
+    background-color: rgba(247, 111, 48, 0.781);
     overflow: hidden;
    padding-top: 40px; 
     
