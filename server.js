@@ -426,6 +426,10 @@ io.on('connection', (currentSocket) => {
     io.sockets.emit('typing', data);
   });
 
+  currentSocket.on('doneTyping', (data) => {
+    io.sockets.emit('doneTyping', data);
+  });
+
   currentSocket.on('request', (data) => {
     console.log(data.eventName);
   });

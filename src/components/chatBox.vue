@@ -92,25 +92,16 @@ export default {
         socket.on('typing', (data) => {
             socket.emit(feedback.innerHTML = '<p><em>' + data + ' is typing a message...</em></p>');
         });
-        
-        // var typing = false;
-        // var timeout = undefined;
 
-        // function timeoutFunction(){
-        //   typing = false;
-        //   socket.emit(noLongerTypingMessage);
-        // }
+        message.addEventListener('keyup', (data) => {
+          socket.emit('doneTyping', data.handle);
+        });
 
-        // function onKeyDownNotEnter(){
-        //   if(typing == false) {
-        //     typing = true
-        //     socket.emit(typingMessage);
-        //     timeout = setTimeout(timeoutFunction, 2000);
-        //   } else {
-        //     clearTimeout(timeout);
-        //     timeout = setTimeout(timeoutFunction, 2000);
-        //   }
-        //}
+        socket.on('doneTyping', () => {
+          setTimeout(() => {
+            feedback.innerHTML = "";
+          }, 5000);
+        });
      }
 }
 
