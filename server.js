@@ -426,7 +426,32 @@ app.post('/friends', (req, res) => {
       });
     })
     .then(() => {
-      res.status(201).send();
+      res.status(201).send('friend added');
+    })
+    .catch((err) => {
+      console.error('error adding friend', err);
+      res.send(err);
+    });
+});
+
+app.delete('/friends', (req, res) => {
+  const userId = req.user.dataValues.id;
+  const friendName = req.body.name;
+  User.findOne({
+    where: { Name: friendName },
+  })
+    .then((friend) => {
+      // console.log('add friend', friend.dataValues);
+      return UserFriends.findOne({
+        where: {
+          id_user: userId,
+          id_friend: friend.dataValues.id,
+        },
+      });
+    })
+    .then(friendship => friendship.destroy())
+    .then(() => {
+      res.send('friend removed');
     })
     .catch((err) => {
       console.error('error adding friend', err);
