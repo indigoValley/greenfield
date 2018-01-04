@@ -17,7 +17,7 @@ const compiler = webpack(webpackConfig);
 const passwordHash = require('password-hash');
 const db = require('./db-config');
 
-const { User, Event, Message } = db;
+const { User, UserFriends, Event, Message } = db;
 // passport requirements
 const passport = require('passport');
 const JsonStrategy = require('passport-json').Strategy;
@@ -64,7 +64,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   console.log('deserializing', id || 'no id to deserialize');
   User.findOne({ where: { id } }).then((user) => {
-    console.log(user);
+    // console.log(user);
     done(null, user);
   }, (err) => {
     console.log(err);
@@ -386,6 +386,32 @@ app.post('/approve', (req, res) => {
       res.status(500).send('error approving request');
     });
 });
+
+// Get user friends
+app.get('/friends', (req, res) => {
+  const userId = req.user.dataValues.id;
+  UserFriends.findAll({
+    where: { id_user: userId },
+    attributes: ['id_friend'],
+  })
+    .then((friends) => {
+      const promises = [];
+      friends.forEach((friend) => {
+        // console.log('friend', friend.dataValues);
+        promises.push(User.findById(friend.dataValues.id_friend));
+      });
+      return Promise.all(promises);
+    })
+    .then((users) => {
+      // console.log('found friends', users);
+      res.send(users);
+    })
+    .catch((err) => {
+      console.log('error getting friends', err);
+      res.send(err);
+    });
+});
+
 
 const port = process.env.PORT;
 

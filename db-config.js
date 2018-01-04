@@ -218,13 +218,6 @@ Message.sync();
 //   });
 
 
-  /**
-   * Executing (default): CREATE TABLE IF NOT EXISTS `user_friends` (`createdAt` DATETIME NOT NULL, `up
-datedAt` DATETIME NOT NULL, `id_friend` INTEGER , `user` INTEGER , PRIMARY KEY (`id_friend`, `user
-`), FOREIGN KEY (`id_friend`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREI
-GN KEY (`user`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB
-   */
-
 // TEST DB-MESSAGE CREATION & QUERY
 // Message.sync().then(() => {
   //   Message.findOrCreate({
