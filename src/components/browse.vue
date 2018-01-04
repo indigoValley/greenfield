@@ -30,7 +30,7 @@ export default {
     },
 
     mounted: function() {
-        const socket = io.connect('http://localhost:8000');
+        const socket = io.connect();
         this.bounds = new google.maps.LatLngBounds();
         const element = document.getElementById(this.mapName)
         const mapCentre = this.markerCoordinates[0]

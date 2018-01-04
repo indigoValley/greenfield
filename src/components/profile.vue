@@ -11,13 +11,15 @@
                     <!-- <div class="card-info">
                     <span class="card-title">{{this.data.profileName}}</span> -->
                     <div class="useravatar">
+                    <span class="card-title"><b>{{this.data.profileName}}</b></span>
+                    <br>
                         <img alt="" v-bind:src="data.image">
                     </div>
+                    <br>
                     <div class="card-info">
-                    <span class="card-title">{{this.data.profileName}}</span>
-                    <span class="card-title"> Email:</span> {{this.data.profileEmail}}</span>
-                    <span class="card-title"> Current City:</span> {{this.data.profileCity}}</span>
-                    <span class="card-title"> Date of birth:</span> {{this.data.birthday}}</span>
+                    Email:<span class="card-title">{{this.data.profileEmail}}</span>
+                    Current City: <span class="card-title">{{this.data.profileCity}}</span>
+                    Date of birth: <span class="card-title">{{this.data.birthday}}</span>
                     </div>
                 </div>
             </div>

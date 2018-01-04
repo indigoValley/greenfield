@@ -1,5 +1,5 @@
 const io = require('socket.io');
-const socket = io.connect('http://localhost:8000');
+const socket = io.connect();
 
 
 const message = document.getElementById('message');
