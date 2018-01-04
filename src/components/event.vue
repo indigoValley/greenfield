@@ -15,6 +15,7 @@
                 <p>Host: {{event.Host}}</p>
                 <p>Address: {{event.Address}}</p>
                 <p>Time: {{event.Time}}</p>
+                <p>Date: {{event.Date}}</p>
                 <p>Guests:</p>
                 
     <ul v-if="event.Contributor_List">
