@@ -407,7 +407,29 @@ app.get('/friends', (req, res) => {
       res.send(users);
     })
     .catch((err) => {
-      console.log('error getting friends', err);
+      console.error('error getting friends', err);
+      res.send(err);
+    });
+});
+
+app.post('/friends', (req, res) => {
+  const userId = req.user.dataValues.id;
+  const friendName = req.body.name;
+  User.findOne({
+    where: { Name: friendName },
+  })
+    .then((friend) => {
+      // console.log('add friend', friend.dataValues);
+      return UserFriends.create({
+        id_user: userId,
+        id_friend: friend.dataValues.id,
+      });
+    })
+    .then(() => {
+      res.status(201).send();
+    })
+    .catch((err) => {
+      console.error('error adding friend', err);
       res.send(err);
     });
 });
