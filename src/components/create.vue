@@ -1,3 +1,4 @@
+
 <template>
     <b-jumbotron header="New Event">
       
@@ -87,7 +88,6 @@ export default {
                 this.populateList = true;
                 this.meals = response.body.hits
             })
-
         },
         hideList(change) {
             this.showMeal = true;
@@ -95,12 +95,10 @@ export default {
             this.eventData.meal = change[1].uri.split('#')[1];
             this.food = change[1].label;
             this.showSelection = change[1];
-
         }
     }
 }
 </script>
 
 <style >
-
 </style>

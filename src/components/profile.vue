@@ -33,7 +33,8 @@
                     <li v-for="(notification, index) in this.data.notifications" v-bind:notification="notification">
                         {{notification}}
                          <br>
-                        <b-button id="approve" @click="approveRequest(notification, index)">Approve this request</b-button> 
+                        <b-button id="approve" @click="approveRequest(notification, index)">Approve this request</b-button>
+                        <b-button id="approve" @click="denyRequest(notification, index)">Deny this request</b-button> 
                     </li>
                 </ul>
 
@@ -141,9 +142,21 @@ export default {
             }).catch((err) => {
                 console.log('error approving request');
             })
+        },
+    //     denyRequest(notification, index) {
+    //         console.log('deny:', this.data.notificationData[index]);
+    //         const data = this.data.notificationData[index];
+    //         this.$http.post('/deny', {
+    //             eventName: data[0],
+    //             deniedUser: data[1],
+    //         }).then((response) => {
+    //             this.data.notifications.splice(index, 1);
+    //             this.data.notificationData.splice(index, 1);
+    //         }).catch((err) => {
+    //             console.log('error denying request');
+    //         })
 
-        }
-
+    // }
     }
 }
 </script>

@@ -22,11 +22,10 @@
         <li v-for="guest in event.Contributor_List.split(' ')" v-bind:key="guest">{{guest}}</li>
     </ul>
 
-                <!-- <p>Recipe: {{meal.label}}</p>
+                 <p>Recipe: {{meal.label}}</p>
                 <ul>
                     <li v-for="Ingredient in meal.ingredientLines" v-bind:key="Ingredient.id">{{Ingredient}}</li>
-                </ul> -->
-                
+                </ul>
                 
 
             </b-col>

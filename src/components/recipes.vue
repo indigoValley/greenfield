@@ -10,8 +10,8 @@
                     <li v-for="Ingredient in meal.recipe.ingredientLines" v-bind:key="Ingredient.id">
                         {{Ingredient}}
                     </li>
-                <b-btn v-on:click="mealSelected(meal.recipe)" >This is the meal for me</b-btn>
                 </ul>
+                <b-btn v-on:click="mealSelected(meal.recipe)" >This is the meal for me</b-btn>
             </li>
         </ul>
     </div>
@@ -24,7 +24,6 @@ export default {
     data() {
         return {
             mealId: ''
-
         }
     },
     methods: {
@@ -34,11 +33,9 @@ export default {
             this.$emit('hideList', [false, id])
             
         }
-
     }
 }
 </script>
 
 <style >
-
 </style>
