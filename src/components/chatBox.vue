@@ -18,7 +18,7 @@
             <div id="feedback"></div>
           <p id="handle">{{name}}</p>
           <input id="message" type="text" placeholder="Message">
-          <b-btn id="send" class="btn btn-warning">Send</b-btn>
+          <b-btn id="send" class="btn btn-success">Send</b-btn>
           </div>
             </slot>
             </div>
@@ -42,10 +42,16 @@
 
 <script>
 // Imports
+import lodash from 'lodash'
+
 export default {
   props: [
     'event', 'name'
   ],
+    created() {
+      console.log(_.isEmpty() ? 'Lodash is available' : 'Error');
+    },
+
     data() {
         return {
 
@@ -74,6 +80,7 @@ export default {
                 handle: this.name,
                 event: eventName,
             });
+            message.value = '';
         });
 
         message.addEventListener('keypress', () => {
@@ -90,18 +97,20 @@ export default {
             socket.emit(feedback.innerHTML = '<p><em>' + data + ' is typing a message...</em></p>');
         });
 
-        message.addEventListener('keyup', (data) => {
-          socket.emit('doneTyping', data.handle);
-        });
+         message.addEventListener('keyup', (message) => {
+          socket.emit('doneTyping', message.handle)
+          });
 
-        socket.on('doneTyping', () => {
-          setTimeout(() => {
+          const debounced = _.debounce(() => {
             feedback.innerHTML = "";
-          }, 5000);
-        });
-     }
-}
+          }, 3000);   
 
+          socket.on('doneTyping', () => {
+            debounced();
+          });
+          
+        }
+    }
 
 
 
