@@ -3,27 +3,43 @@
         <br>
         <b-row>
             <b-col>
-                <input v-model="query" placeholder="find a potluck">
-                <b-button size="sm" variant="outline-warning" :query="query" v-on:click="search(query)">
+                <input v-model="query" placeholder="find a potlucky">
+                <b-button size="sm" variant="warning" :query="query" v-on:click="search(query)">
                 Search
                 </b-button>
                 <br>
                 <br>
-                PotLuckies
-                <ul>
-                    <li v-for="pot in potLuckies">{{pot.Name}}</li>
-                </ul>
+                <h2>PotLuckies</h2>
+                <div v-for="(pot, index) in potLuckies">
+                    <b-card>
+                        <span><h4>{{pot.Name}}</h4></span>
+                        <small>{{pot.Date}}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;{{pot.Time}}</small><br>
+                        <b-row>
+                            <b-col cols="3">
+                                <strong>Host : </strong><br>
+                                <strong>Location : </strong><br>
+                                <strong>Zip code : </strong><br>
+                            </b-col>
+                            <b-col>
+                                <span>{{pot.Host}}</span><br>
+                                <a href="javascript:;" v-on:click="getMapPoints([pot])">{{pot.Address}}</a><br>
+                                <!-- <button type="button" class="btn btn-link btn-sm" v-on:click="getMapPoints([pot])">{{pot.Address}}</button><br> -->
+                                <!-- <span>{{pot.Address}}</span><br> -->
+                                <span>{{pot.Zip_Code}}</span><br>
+                            </b-col>
+                        </b-row>
+                        <!-- <button class="btn btn-sm btn-info" id="showguests" v-on:click="console.log('toggle guests')">guestlist</button> -->
+                        <button class="btn btn-sm btn-success" id="request" style="float: right;" v-on:click="clickMe(pot)">attend</button>
+                    </b-card>
+                </div>
             </b-col>
             <b-col>
-                <div class="google-map" :id="mapName"></div>
+                <div class="google-map" :id="mapName" style="position: fixed" ></div>
             </b-col>
         </b-row>
     </b-container>
 </template>
 <script>
-window.clickMe = () => {
-   return;
-}
 import mapMarkerData from './marker.vue';
 export default {
     components: {
@@ -44,11 +60,25 @@ export default {
 
             potLuckies: [],
             query:'',
+            reqSent: false,
         }
     },
     methods:{
+        clickMe: function(event) {
+            this.reqSent = true;
+            const socket = io.connect();
+            console.log('clicked');
+            this.$http.post('/request', {
+                name: event.Name,
+            }).then(function(response) {
+                socket.emit('request', {
+                    eventName: event.Name,
+                })
+                console.log(response);
+            })
+            return;
+        },
         search: function(query) {
-            this.potLuckies.push(query)
             this.$http.get('/browse')
                 .then(response => {
                     let matches = response.body.filter(event => event.Name.toLowerCase().includes(query.toLowerCase()));
@@ -84,7 +114,6 @@ export default {
                 '<h2>' + `${coord.event.Name}` + '</h2>' +
                 '<p>' + 'Host: ' + `${coord.event.Host}` + '</p>' +
                 '<p>' + 'Address: ' + `${coord.event.Address}` + '</p>' +
-                '<button id="request" onclick="window.clickMe()">Click me</button>' +
                 '</div>'
                 var infowindow = new google.maps.InfoWindow({
                     content: contentString
@@ -96,6 +125,7 @@ export default {
                 });
     
                 marker.addListener('click', function() {
+                    const socket = io.connect();
                     infowindow.open(this.map, marker);
                     let message = document.getElementById('request');
                     message.addEventListener('click', () => {
@@ -132,7 +162,7 @@ export default {
 </script>
 <style scoped>
 .google-map {
-    width: 700px;
+    width: 500px;
     height: 500px;
     margin: 0 auto;
     background: gray;

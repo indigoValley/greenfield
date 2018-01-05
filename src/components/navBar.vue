@@ -56,7 +56,7 @@ h4 {
 
 /* Change the color of links on hover */
 .topnav a:hover {
-    background-color: #ddd;
+    background-color: rgb(240, 104, 41);
     color: black;
 }
 
