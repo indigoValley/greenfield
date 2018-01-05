@@ -82,7 +82,8 @@
             </div>
         </div>
         <div class="row" v-if="showEvent">
-            <b-btn v-on:click='showEvent = !showEvent' align="center"> Hide Event Details</b-btn>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-sm btn-warning" v-on:click='showEvent = !showEvent' align="center"> Hide Event Details</button>
             <eventdiv 
                 v-if="showEvent" 
                 v-bind:event="event" 

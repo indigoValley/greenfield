@@ -1,27 +1,48 @@
 <template>
     <b-container id="Event">
         <!-- ----------------------------NEW STUFF------------------------ -->
-        <h1>{{event.Name}}</h1>
         <div class="row">
-            <div class="col-sm-">
-
+            <div class="col-sm-3"></div>
+            <div class="col-sm-5"><h1>{{event.Name}}</h1></div>
+            <div class="col-sm-3">
+                <b-btn id="show-modal" @click="showModal = true" style="background-color: rgba(247, 111, 48, 0.781); float: right;">Event Chat</b-btn>
+                <chat v-if="showModal" v-bind:event='event' v-bind:name='name' @close="showModal = false">
+                    <h3 slot="header">{{event.Name}}</h3>
+                </chat>
             </div>
-
-            <div class="col">
-
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-3">
+                <p>Date: {{event.Date}}</p>
+                <p>Time: {{event.Time}}</p>
+                <p>Location: {{event.Address}}</p>
+                <p>Recipe: {{meal.label}}</p>
+                <ul>
+                    <li v-for="Ingredient in meal.ingredientLines" v-bind:key="Ingredient.id">{{Ingredient}}</li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <p>Host: {{event.Host}}</p>
+                <p>Guests:</p>
+                <ul v-if="event.Contributor_List">
+                    <li v-for="guest in event.Contributor_List.split(' ')" v-bind:key="guest">
+                        {{guest}}
+                        <br>
+                        <button class="btn btn-sm btn-success" v-if="!isFriend(guest)" id="addFriend" @click="addFriend(guest)">Add Friend</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-6">
+                <template>
+                    <div class="google-map" :id="mapName"></div>
+                </template>
             </div>
         </div>
         <!-- --------------------------------OLD STUFF-------------------------- -->
-        <b-row>
+        <!-- <b-row>
             <b-col>
                 <div cols='8' id="app">
-                    <b-btn id="show-modal" @click="showModal = true">Event Chat</b-btn>
-                    
-    
-
-                    <chat v-if="showModal" v-bind:event='event' v-bind:name='name' @close="showModal = false">
-                        <h3 slot="header">{{event.Name}}</h3>
-                    </chat>
                 </div>
                 <p>Host: {{event.Host}}</p>
                 <p>Address: {{event.Address}}</p>
@@ -50,7 +71,7 @@
                     </div>
                 </template>
             </b-col>
-        </b-row>
+        </b-row> -->
     </b-container>
 </template>
 
