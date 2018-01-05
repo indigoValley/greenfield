@@ -404,7 +404,11 @@ app.get('/friends', (req, res) => {
     })
     .then((users) => {
       // console.log('found friends', users);
-      res.send(users);
+      const usernames = [];
+      users.forEach((user) => {
+        usernames.push(user.dataValues.Name);
+      });
+      res.send(usernames);
     })
     .catch((err) => {
       console.error('error getting friends', err);
@@ -430,7 +434,7 @@ app.post('/friends', (req, res) => {
     })
     .catch((err) => {
       console.error('error adding friend', err);
-      res.send(err);
+      res.send('error adding friend');
     });
 });
 
@@ -454,8 +458,8 @@ app.delete('/friends', (req, res) => {
       res.send('friend removed');
     })
     .catch((err) => {
-      console.error('error adding friend', err);
-      res.send(err);
+      console.error('error removing friend', err);
+      res.send('error removing friend');
     });
 });
 

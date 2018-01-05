@@ -27,6 +27,33 @@
             </div>
         </b-row>
         <b-row>
+<<<<<<< d97770d2f13c85ca127c70210a8c413742cd8cb6
+=======
+            <!-- profile info -->
+            <b-col cols="9" class="info">
+                <!-- <p>
+                    <span class="title">Email:</span> {{this.data.profileEmail}}</p>
+                <p>
+                    <span class="title">Current City:</span> {{this.data.profileCity}}</p>
+                <p>
+                    <span class="title">Date of birth:</span> {{this.data.birthday}}</p> -->
+                <p>
+                    <span class="title">Host Rating:</span> {{this.data.profileHR}}</p>
+                <p>
+                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p>
+                <div>
+                <p>
+                    <span class="title">Friends:</span></p>
+                    <ul v-if="!showEvent">
+                        <li v-for="friend in this.data.friends">
+                            {{friend}}
+                            <b-button id="removeFriend" @click="removeFriend(friend)">Remove Friend</b-button>
+                        </li>
+                    </ul>
+                </div>
+
+            </b-col>
+>>>>>>> [friendslist] add friendslist to front end
             <b-col class='profile-buttons'>
                 <h4>Notifications:</h4>
                 <ul>
@@ -49,7 +76,7 @@
             </b-col>
         </b-row>
         <b-row>
-            <eventdiv v-if="showEvent" v-bind:event="event" v-bind:name="this.data.profileName"></eventdiv>
+            <eventdiv v-if="showEvent" v-bind:event="event" v-bind:name="this.data.profileName" v-bind:addFriend="this.addFriend" v-bind:isFriend="this.isFriend"></eventdiv>
         </b-row>
          
 
@@ -78,6 +105,7 @@ export default {
                 notificationData: [],
                 events: [],
                 image: '',
+                friends: [],
             }
 
 
@@ -124,6 +152,7 @@ export default {
                 console.log(formattedNotifications);
                 this.data.notifications = formattedNotifications.length ? formattedNotifications : [];
             })
+        this.getFriends();
     },
     methods: {
         sEvent(clickedEvent) {
@@ -143,20 +172,44 @@ export default {
                 console.log('error approving request');
             })
         },
-    //     denyRequest(notification, index) {
-    //         console.log('deny:', this.data.notificationData[index]);
-    //         const data = this.data.notificationData[index];
-    //         this.$http.post('/deny', {
-    //             eventName: data[0],
-    //             deniedUser: data[1],
-    //         }).then((response) => {
-    //             this.data.notifications.splice(index, 1);
-    //             this.data.notificationData.splice(index, 1);
-    //         }).catch((err) => {
-    //             console.log('error denying request');
-    //         })
+        getFriends() {
+            this.$http.get('/friends')
+            .then((response) => {
+                this.data.friends = response.body;
+            })
+            .catch((err) => {
+                console.log('error getting friends', err);
+            });
+        },
+        removeFriend(name) {
+            this.$http.delete('/friends', {
+                body: {
+                    name
+                }
+            })
+            .then((response) => {
+                console.log(response);
+                this.getFriends();
+            })
+            .catch((err) => {
+                console.log('error removing friend', err);
+            })
+        },
+        addFriend(friendName) {
+            console.log('add friend', friendName);
+            this.$http.post('/friends', {
+                name: friendName,
+            })
+            .then((response) => {
+                console.log(response);
+                this.getFriends();
+            });
+        },
+        isFriend(name) {
+            if (name === this.data.profileName) return true;
+            return this.data.friends.indexOf(name) !== -1;
+        },
 
-    // }
     }
 }
 </script>
