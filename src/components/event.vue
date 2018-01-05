@@ -19,7 +19,11 @@
                 <p>Guests:</p>
                 
     <ul v-if="event.Contributor_List">
-        <li v-for="guest in event.Contributor_List.split(' ')" v-bind:key="guest">{{guest}}</li>
+        <li v-for="guest in event.Contributor_List.split(' ')" v-bind:key="guest">
+            {{guest}}
+            <br>
+            <b-button v-if="!isFriend(guest)" id="addFriend" @click="addFriend(guest)">Add Friend</b-button>
+        </li>
     </ul>
 
                  <p>Recipe: {{meal.label}}</p>
@@ -49,7 +53,7 @@ export default {
         mapMarkerData: mapMarkerData,
     },
     name: 'google-map',
-    props: ['event', 'name'],
+    props: ['event', 'name', 'addFriend', 'isFriend'],
     data() {
         return {
             meal: '',
@@ -127,6 +131,7 @@ export default {
             
         },
     methods: {
+        
     }
 }
 </script>
