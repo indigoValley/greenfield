@@ -20,40 +20,30 @@
                     Email:<span class="card-title">{{this.data.profileEmail}}</span>
                     Current City: <span class="card-title">{{this.data.profileCity}}</span>
                     Date of birth: <span class="card-title">{{this.data.birthday}}</span>
+                    Host Rating: </span class="card-title">{{this.data.profileHR}}</span>
+                    Guest Rating: </span class="card-title">{{this.data.profileCR}}</span>
                     </div>
                 </div>
             </div>
         </b-row>
         <b-row>
-            <!-- profile info -->
-            <b-col cols="9" class="info">
-                <!-- <p>
-                    <span class="title">Email:</span> {{this.data.profileEmail}}</p>
-                <p>
-                    <span class="title">Current City:</span> {{this.data.profileCity}}</p>
-                <p>
-                    <span class="title">Date of birth:</span> {{this.data.birthday}}</p> -->
-                <p>
-                    <span class="title">Host Rating:</span> {{this.data.profileHR}}</p>
-                <p>
-                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p>
-            </b-col>
             <b-col class='profile-buttons'>
                 <h4>Notifications:</h4>
                 <ul>
                     <li v-for="(notification, index) in this.data.notifications" v-bind:notification="notification">
                         {{notification}}
                          <br>
-                        <b-button id="approve" @click="approveRequest(notification, index)">Approve this request</b-button> 
+                        <b-button id="approve" @click="approveRequest(notification, index)">Approve this request</b-button>
+                        <b-button id="approve" @click="denyRequest(notification, index)">Deny this request</b-button> 
                     </li>
                 </ul>
 
-                <h4 v-if="!showEvent">Events:</h4>
-                <b-btn v-if="showEvent" v-on:click='showEvent = !showEvent'> Close Event</b-btn>
+                <h4 v-if="!showEvent">Upcoming Events:</h4>
+                <b-btn v-if="showEvent" v-on:click='showEvent = !showEvent'> Hide Event Details</b-btn>
                 <ul v-if="!showEvent">
                     <li v-for="event in this.data.events" v-bind:key="event.id">
                         {{event.Name}}
-                        <b-btn v-on:click='sEvent(event)'>Event Details</b-btn>
+                        <b-btn v-on:click='sEvent(event)'>Show Event Details</b-btn>
                     </li>
                 </ul>
             </b-col>
@@ -152,9 +142,21 @@ export default {
             }).catch((err) => {
                 console.log('error approving request');
             })
+        },
+    //     denyRequest(notification, index) {
+    //         console.log('deny:', this.data.notificationData[index]);
+    //         const data = this.data.notificationData[index];
+    //         this.$http.post('/deny', {
+    //             eventName: data[0],
+    //             deniedUser: data[1],
+    //         }).then((response) => {
+    //             this.data.notifications.splice(index, 1);
+    //             this.data.notificationData.splice(index, 1);
+    //         }).catch((err) => {
+    //             console.log('error denying request');
+    //         })
 
-        }
-
+    // }
     }
 }
 </script>

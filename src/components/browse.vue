@@ -4,6 +4,7 @@
 </template>
 <script>
 window.clickMe = () => {
+    console.log('in window.clickMe');
    return;
 }
 import mapMarkerData from './marker.vue';
@@ -51,33 +52,49 @@ export default {
                 });
                 arr.forEach((coord) => {
                     const position = new google.maps.LatLng(coord.latitude, coord.longitude);
-                    var contentString = 
+                    const contentString = 
                     '<div>' +
                     '<h2>' + `${coord.event.Name}` + '</h2>' +
                     '<p>' + 'Host: ' + `${coord.event.Host}` + '</p>' +
                     '<p>' + 'Address: ' + `${coord.event.Address}` + '</p>' +
                     '<button id="request" onclick="window.clickMe()">Click me</button>' +
                     '</div>'
-                    var infowindow = new google.maps.InfoWindow({
+                    const infowindow = new google.maps.InfoWindow({
                         content: contentString
                     });
-                    var marker = new google.maps.Marker({
+                    const marker = new google.maps.Marker({
                         position,
                         map: this.map,
                         event: coord.event,
                     });
+                    //   var socket = io.connect('http://localhost:3000/');
+                    //     socket.on('connect',function(){
+                    //         socket.emit('message', 'Hello server');
+                    //     });
+
+                    //     socket.on('news', function(msg) {
+                    //         alert('News from server: ' + msg.hello);
+                    //     });
 
                     marker.addListener('click', function() {
                         infowindow.open(this.map, marker);
-                        let message = document.getElementById('request');
+                        const message = document.getElementById('request');
                         message.addEventListener('click', () => {
+                            console.log('post request');
                             context.$http.post('/request', {
                                 name: marker.event.Name,
                             }).then(function(response) {
-                                socket.emit('request', {
-                                    eventName: marker.event.Name,
-                                })
-                                console.log(response);
+                                socket.on('request',function(){
+                                   socket.emit({eventName: marker.event.name});
+                                  // , {eventName: marker.event.Name}
+                             });
+                                // console.log('socket.emit');
+                                // socket.emit('request', {
+                                //     eventName: marker.event.Name,
+                                // })
+                                console.log('addListener response', response);
+                            }).catch(err => {
+                                console.error(err);
                             })
                         
                             });
@@ -87,9 +104,6 @@ export default {
                     this.map.fitBounds(this.bounds.extend(position))
 
                 });
-                
-
-
             })
 
         }

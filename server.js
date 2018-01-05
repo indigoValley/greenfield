@@ -423,7 +423,11 @@ io.on('connection', (currentSocket) => {
   });
   // 'User is typing...'
   currentSocket.on('typing', (data) => {
-    currentSocket.broadcast.emit('typing', data);
+    io.sockets.emit('typing', data);
+  });
+
+  currentSocket.on('doneTyping', (data) => {
+    io.sockets.emit('doneTyping', data);
   });
 
   currentSocket.on('request', (data) => {
