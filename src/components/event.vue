@@ -19,14 +19,17 @@
                 <p>Guests:</p>
                 
     <ul v-if="event.Contributor_List">
-        <li v-for="guest in event.Contributor_List.split(' ')" v-bind:key="guest">{{guest}}</li>
+        <li v-for="guest in event.Contributor_List.split(' ')" v-bind:key="guest">
+            {{guest}}
+            <br>
+            <b-button v-if="!isFriend(guest)" id="addFriend" @click="addFriend(guest)">Add Friend</b-button>
+        </li>
     </ul>
 
-                <!-- <p>Recipe: {{meal.label}}</p>
+                 <p>Recipe: {{meal.label}}</p>
                 <ul>
                     <li v-for="Ingredient in meal.ingredientLines" v-bind:key="Ingredient.id">{{Ingredient}}</li>
-                </ul> -->
-                
+                </ul>
                 
 
             </b-col>
@@ -50,7 +53,7 @@ export default {
         mapMarkerData: mapMarkerData,
     },
     name: 'google-map',
-    props: ['event', 'name'],
+    props: ['event', 'name', 'addFriend', 'isFriend'],
     data() {
         return {
             meal: '',
@@ -115,19 +118,21 @@ export default {
 
 
     },
+    
     created() {
         this.$http.get('https://api.edamam.com/search?r=http://www.edamam.com/ontologies/edamam.owl%23' + this.event.RecipeID,
             {
                 headers: {
-                    app_id: 'e4a1bc0f',
-                    app_key: '19aa09f1b7b01b5afa733a72bdef0873',
+                    app_id: '139d20f8',
+                    app_key: '1e57cc13913854b044ea52a9fcfdf57d'
                 }
             }).then(function(response) {
-                this.meal = response.body[0]
+                this.meal = response.body[0];
             });
             
         },
     methods: {
+        
     }
 }
 </script>

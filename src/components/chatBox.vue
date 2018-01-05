@@ -59,13 +59,13 @@ export default {
         const socket = io.connect();
 
 
-        let message = document.getElementById('message');
-        let handle = document.getElementById('handle');
-        let btn = document.getElementById('send');
-        let output = document.getElementById('output');
-        let feedback = document.getElementById('feedback');
+        const message = document.getElementById('message');
+        const handle = document.getElementById('handle');
+        const btn = document.getElementById('send');
+        const output = document.getElementById('output');
+        const feedback = document.getElementById('feedback');
 
-        let eventName = this.event.Name;
+        const eventName = this.event.Name;
         console.log(eventName);
         socket.emit('open', {
           event: eventName,
@@ -83,7 +83,6 @@ export default {
             socket.emit('typing', this.name);
         });
 
-
         socket.on('chat', (data) => {
             feedback.innerHTML = '';
             output.innerHTML += `<p><strong>${data.handle}:</strong>${data.message}</p>`;
@@ -91,9 +90,19 @@ export default {
 
 
         socket.on('typing', (data) => {
-            feedback.innerHTML = '<p><em>' + data + ' is typing a message...</em></p>'
+            socket.emit(feedback.innerHTML = '<p><em>' + data + ' is typing a message...</em></p>');
         });
-    }
+
+        message.addEventListener('keyup', (data) => {
+          socket.emit('doneTyping', data.handle);
+        });
+
+        socket.on('doneTyping', () => {
+          setTimeout(() => {
+            feedback.innerHTML = "";
+          }, 5000);
+        });
+     }
 }
 
 

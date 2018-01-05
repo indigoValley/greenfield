@@ -1,3 +1,4 @@
+
 <template>
     <b-jumbotron header="New Event">
       
@@ -70,24 +71,26 @@ export default {
                 this.list = true
                 console.log(response.status)
                 console.log(response)
-            })
+            }).catch(err => {
+                console.error(err);
+            });
         },
+
         lookUp: function() {
             this.$http.get('https://api.edamam.com/search',
                 {
                     params: {
-                        q: this.food
-                    },
-                    headers: {
-                        app_id: 'e4a1bc0f',
-                        app_key: '19aa09f1b7b01b5afa733a72bdef0873',
+                        q: this.food,
+                        app_id: '139d20f8',
+                        app_key: '1e57cc13913854b044ea52a9fcfdf57d'
                     }
                 }
             ).then(function(response) {
                 this.populateList = true;
                 this.meals = response.body.hits
+            }).catch(err => {
+                console.error(err);
             })
-
         },
         hideList(change) {
             this.showMeal = true;
@@ -95,12 +98,10 @@ export default {
             this.eventData.meal = change[1].uri.split('#')[1];
             this.food = change[1].label;
             this.showSelection = change[1];
-
         }
     }
 }
 </script>
 
 <style >
-
 </style>

@@ -33,9 +33,11 @@ const User = sequelize.define('user', {
   },
   Host_Rating: {
     type: Sequelize.INTEGER,
+    defaultValue: 0,
   },
   Contributor_Rating: {
     type: Sequelize.INTEGER,
+    defaultValue: 0,
   },
   Email: {
     type: Sequelize.STRING,
@@ -48,6 +50,7 @@ const User = sequelize.define('user', {
   },
   Notifications: {
     type: Sequelize.STRING,
+    defaultValue: '',
   },
   Birthday: {
     // format: YYYY-MM-DD
@@ -55,10 +58,41 @@ const User = sequelize.define('user', {
   },
   Image: {
     type: Sequelize.STRING,
+    defaultValue: null,
   },
 });
 
-User.sync();
+const UserFriends = sequelize.define('user_friends', {
+  id_user: {
+    type: Sequelize.INTEGER,
+    // references: {
+    //   model: 'User',
+    //   key: 'id',
+    // },
+  },
+  id_friend: {
+    type: Sequelize.INTEGER,
+    // references: {
+    //   model: 'User',
+    //   key: 'id',
+    // },
+  },
+});
+
+// set up friendship associations
+// User.belongsToMany(User, {
+//   as: 'Friend',
+//   through: UserFriends,
+//   // foreignKey: 'id_user',
+//   // otherKey: 'id_friend',
+// });
+// User.belongsToMany(User, {
+//   as: 'User',
+//   through: UserFriends,
+//   foreignKey: 'id_friend',
+//   otherKey: 'id_user',
+// });
+// give up on setting associations correctly
 
 const Event = sequelize.define('event', {
   Name: {
@@ -98,7 +132,6 @@ const Event = sequelize.define('event', {
   },
 });
 
-Event.sync();
 
 const Message = sequelize.define('message', {
   Handle: {
@@ -112,24 +145,95 @@ const Message = sequelize.define('message', {
   },
 });
 
+User.sync();
+UserFriends.sync();
+Event.sync();
 Message.sync();
+
+// TEST USER ADD & GET FRIENDS
+// User.sync().then(() => {
+//   return User.create({
+//     Name: 'fred',
+//     Email: 'fred@flintstone.com',
+//     City: 'bedrock',
+//     Password: 'pass',
+//     Birthday: 'some day',
+//   });
+// })
+//   .then((fred) => {
+//     console.log('create fred', fred.dataValues);
+//     return User.create({
+//       Name: 'barney',
+//       Email: 'barney@rubble.com',
+//       City: 'bedrock',
+//       Password: 'pass2',
+//       Birthday: 'some other day',
+//     });
+//   })
+//   .then((barney) => {
+//     console.log('create barney', barney.dataValues);
+//     return UserFriends.sync();
+//   })
+//   .then(() => {
+//     User.findOne({
+//       where: { 
+//         Name: 'fred',
+//       },
+//     })
+//       .then((fred) => {
+//         User.findOne({
+//           where: {
+//             Name: 'barney',
+//           },
+//         })
+//           .then((barney) => {
+//             UserFriends.sync().then(() => {
+//               return UserFriends.create({
+//                 id_user: fred.dataValues.id,
+//                 id_friend: barney.dataValues.id,
+//               })
+//                 .then(() => {
+//                   UserFriends.findAll({
+//                     where: {
+//                       id_user: fred.dataValues.id,
+//                     },
+//                     attributes: ['id_friend'],
+//                   })
+//                     .then((friends) => {
+//                       friends.forEach((friend) => {
+//                         // console.log('friend', friend.dataValues);
+//                         User.findById(friend.dataValues.id_friend)
+//                           .then((user) => {
+//                             console.log('friend', user.dataValues);
+//                           });
+//                       });
+//                     });
+//                 });
+//             });
+//           });
+//       });
+//   })
+//   .catch((err) => {
+//     console.log('error testing db', err);
+//   });
+
 
 // TEST DB-MESSAGE CREATION & QUERY
 // Message.sync().then(() => {
-//   Message.findOrCreate({
-//     where: { Handle: 'randomUser' },
-//     defaults: {
-//       Message: 'I am a test message',
-//       Event: 'jam sesh',
-//     },
-//   }).spread((message, created) => {
-//     console.log(message.get({ plain: true }));
-//     console.log(created);
-//   });
-// });
-
-// TEST DB-EVENT CREATION & QUERY
-// Event.sync({ force: true }).then(() => {
+  //   Message.findOrCreate({
+    //     where: { Handle: 'randomUser' },
+    //     defaults: {
+      //       Message: 'I am a test message',
+      //       Event: 'jam sesh',
+      //     },
+      //   }).spread((message, created) => {
+        //     console.log(message.get({ plain: true }));
+        //     console.log(created);
+        //   });
+        // });
+        
+        // TEST DB-EVENT CREATION & QUERY
+        // Event.sync({ force: true }).then(() => {
 //   Event.findOrCreate({
 //     where: { Name: 'test event 1' },
 //     // defaults: {
@@ -185,5 +289,6 @@ Message.sync();
 
 
 module.exports.User = User;
+module.exports.UserFriends = UserFriends;
 module.exports.Event = Event;
 module.exports.Message = Message;

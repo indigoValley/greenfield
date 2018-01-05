@@ -17,7 +17,7 @@ const compiler = webpack(webpackConfig);
 const passwordHash = require('password-hash');
 const db = require('./db-config');
 
-const { User, Event, Message } = db;
+const { User, UserFriends, Event, Message } = db;
 // passport requirements
 const passport = require('passport');
 const JsonStrategy = require('passport-json').Strategy;
@@ -64,7 +64,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
   console.log('deserializing', id || 'no id to deserialize');
   User.findOne({ where: { id } }).then((user) => {
-    console.log(user);
+    // console.log(user);
     done(null, user);
   }, (err) => {
     console.log(err);
@@ -387,6 +387,83 @@ app.post('/approve', (req, res) => {
     });
 });
 
+// Get user friends
+app.get('/friends', (req, res) => {
+  const userId = req.user.dataValues.id;
+  UserFriends.findAll({
+    where: { id_user: userId },
+    attributes: ['id_friend'],
+  })
+    .then((friends) => {
+      const promises = [];
+      friends.forEach((friend) => {
+        // console.log('friend', friend.dataValues);
+        promises.push(User.findById(friend.dataValues.id_friend));
+      });
+      return Promise.all(promises);
+    })
+    .then((users) => {
+      // console.log('found friends', users);
+      const usernames = [];
+      users.forEach((user) => {
+        usernames.push(user.dataValues.Name);
+      });
+      res.send(usernames);
+    })
+    .catch((err) => {
+      console.error('error getting friends', err);
+      res.send(err);
+    });
+});
+
+app.post('/friends', (req, res) => {
+  const userId = req.user.dataValues.id;
+  const friendName = req.body.name;
+  User.findOne({
+    where: { Name: friendName },
+  })
+    .then((friend) => {
+      // console.log('add friend', friend.dataValues);
+      return UserFriends.create({
+        id_user: userId,
+        id_friend: friend.dataValues.id,
+      });
+    })
+    .then(() => {
+      res.status(201).send('friend added');
+    })
+    .catch((err) => {
+      console.error('error adding friend', err);
+      res.send('error adding friend');
+    });
+});
+
+app.delete('/friends', (req, res) => {
+  const userId = req.user.dataValues.id;
+  const friendName = req.body.name;
+  User.findOne({
+    where: { Name: friendName },
+  })
+    .then((friend) => {
+      // console.log('add friend', friend.dataValues);
+      return UserFriends.findOne({
+        where: {
+          id_user: userId,
+          id_friend: friend.dataValues.id,
+        },
+      });
+    })
+    .then(friendship => friendship.destroy())
+    .then(() => {
+      res.send('friend removed');
+    })
+    .catch((err) => {
+      console.error('error removing friend', err);
+      res.send('error removing friend');
+    });
+});
+
+
 const port = process.env.PORT;
 
 const server = app.listen(port, () => {
@@ -423,7 +500,11 @@ io.on('connection', (currentSocket) => {
   });
   // 'User is typing...'
   currentSocket.on('typing', (data) => {
-    currentSocket.broadcast.emit('typing', data);
+    io.sockets.emit('typing', data);
+  });
+
+  currentSocket.on('doneTyping', (data) => {
+    io.sockets.emit('doneTyping', data);
   });
 
   currentSocket.on('request', (data) => {

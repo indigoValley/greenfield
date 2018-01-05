@@ -20,6 +20,8 @@
                     Email:<span class="card-title">{{this.data.profileEmail}}</span>
                     Current City: <span class="card-title">{{this.data.profileCity}}</span>
                     Date of birth: <span class="card-title">{{this.data.birthday}}</span>
+                    Host Rating: <span class="card-title">{{this.data.profileHR}}</span>
+                    Guest Rating: <span class="card-title">{{this.data.profileCR}}</span>
                     </div>
                 </div>
             </div>
@@ -33,33 +35,44 @@
                     <span class="title">Current City:</span> {{this.data.profileCity}}</p>
                 <p>
                     <span class="title">Date of birth:</span> {{this.data.birthday}}</p> -->
-                <p>
+                <!-- <p>
                     <span class="title">Host Rating:</span> {{this.data.profileHR}}</p>
                 <p>
-                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p>
+                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p> -->
+                <div v-if="!showEvent">
+                    <h4>Friends:</h4>
+                    <ul >
+                        <li v-for="(friend, index) in this.data.friends" v-bind:key="index">
+                            {{friend}}
+                            <b-button id="removeFriend" @click="removeFriend(friend)">Remove Friend</b-button>
+                        </li>
+                    </ul>
+                </div>
+
             </b-col>
             <b-col class='profile-buttons'>
                 <h4>Notifications:</h4>
                 <ul>
-                    <li v-for="(notification, index) in this.data.notifications" v-bind:notification="notification">
+                    <li v-for="(notification, index) in this.data.notifications" v-bind:notification="notification" v-bind:key="index">
                         {{notification}}
-                         <br>
-                        <b-button id="approve" @click="approveRequest(notification, index)">Approve this request</b-button> 
+                        <br>
+                        <b-button id="approve" @click="approveRequest(notification, index)">Approve this request</b-button>
+                        <b-button id="approve" @click="denyRequest(notification, index)">Deny this request</b-button> 
                     </li>
                 </ul>
 
-                <h4 v-if="!showEvent">Events:</h4>
-                <b-btn v-if="showEvent" v-on:click='showEvent = !showEvent'> Close Event</b-btn>
+                <h4 v-if="!showEvent">Upcoming Events:</h4>
+                <b-btn v-if="showEvent" v-on:click='showEvent = !showEvent'> Hide Event Details</b-btn>
                 <ul v-if="!showEvent">
                     <li v-for="event in this.data.events" v-bind:key="event.id">
                         {{event.Name}}
-                        <b-btn v-on:click='sEvent(event)'>Event Details</b-btn>
+                        <b-btn v-on:click='sEvent(event)'>Show Event Details</b-btn>
                     </li>
                 </ul>
             </b-col>
         </b-row>
         <b-row>
-            <eventdiv v-if="showEvent" v-bind:event="event" v-bind:name="this.data.profileName"></eventdiv>
+            <eventdiv v-if="showEvent" v-bind:event="event" v-bind:name="this.data.profileName" v-bind:addFriend="this.addFriend" v-bind:isFriend="this.isFriend"></eventdiv>
         </b-row>
          
 
@@ -88,6 +101,7 @@ export default {
                 notificationData: [],
                 events: [],
                 image: '',
+                friends: [],
             }
 
 
@@ -134,6 +148,7 @@ export default {
                 console.log(formattedNotifications);
                 this.data.notifications = formattedNotifications.length ? formattedNotifications : [];
             })
+        this.getFriends();
     },
     methods: {
         sEvent(clickedEvent) {
@@ -152,8 +167,44 @@ export default {
             }).catch((err) => {
                 console.log('error approving request');
             })
-
-        }
+        },
+        getFriends() {
+            this.$http.get('/friends')
+            .then((response) => {
+                this.data.friends = response.body;
+            })
+            .catch((err) => {
+                console.log('error getting friends', err);
+            });
+        },
+        removeFriend(name) {
+            this.$http.delete('/friends', {
+                body: {
+                    name
+                }
+            })
+            .then((response) => {
+                console.log(response);
+                this.getFriends();
+            })
+            .catch((err) => {
+                console.log('error removing friend', err);
+            })
+        },
+        addFriend(friendName) {
+            console.log('add friend', friendName);
+            this.$http.post('/friends', {
+                name: friendName,
+            })
+            .then((response) => {
+                console.log(response);
+                this.getFriends();
+            });
+        },
+        isFriend(name) {
+            if (name === this.data.profileName) return true;
+            return this.data.friends.indexOf(name) !== -1;
+        },
 
     }
 }
