@@ -26,19 +26,78 @@
                 </div>
             </div>
         </b-row>
-        <b-row>
-            <!-- profile info -->
+        <br>
+        <div class="row" v-if="!showEvent">
+            <div class="col-sm-4" id="eventList">
+                <h4 v-if="!showEvent">Upcoming Events:</h4>
+                <b-btn v-if="showEvent" v-on:click='showEvent = !showEvent'> Hide Details</b-btn>
+                <div>
+                    <div v-for="event in this.data.events" v-bind:key="event.id">
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                {{event.Name}}<br>
+                                <small>{{event.Date}}</small>
+                            </div>
+                            <div class="col-sm-1">
+                                <button class="btn btn-sm btn-info" align="right" v-on:click='sEvent(event)'>Event Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3" id="friendsList">
+                <h4>Friends:</h4>
+                <div>
+                    <div v-for="(friend, index) in this.data.friends" v-bind:key="index">
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                {{friend}}
+                            </div>
+                            <div class="col-sm-1">
+                                <button id="removeFriend" class="btn btn-sm btn-danger" @click="removeFriend(friend)">unfriend</button>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-5" id="notifications">
+                <h4>Notifications:</h4>
+                <div>
+                    <div v-for="(notification, index) in this.data.notifications" v-bind:notification="notification" v-bind:key="index">
+                        <hr>
+                        <li>
+                            {{notification}}
+                            <br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="btn btn-sm btn-success" id="approve" @click="approveRequest(notification, index)">Approve this request</button>
+                            <button class="btn btn-sm btn-danger" id="approve" @click="denyRequest(notification, index)">Deny this request</button> 
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" v-if="showEvent">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-sm btn-warning" v-on:click='showEvent = !showEvent' align="center"> Hide Event Details</button>
+            <eventdiv 
+                v-if="showEvent" 
+                v-bind:event="event" 
+                v-bind:name="this.data.profileName" 
+                v-bind:addFriend="this.addFriend" 
+                v-bind:isFriend="this.isFriend"
+            ></eventdiv>
+        </div>
+
+        <!--             OLD STUFF BELOW          -->
+        <!-- <b-row>
+
             <b-col cols="9" class="info">
-                <!-- <p>
-                    <span class="title">Email:</span> {{this.data.profileEmail}}</p>
-                <p>
-                    <span class="title">Current City:</span> {{this.data.profileCity}}</p>
-                <p>
-                    <span class="title">Date of birth:</span> {{this.data.birthday}}</p> -->
-                <!-- <p>
-                    <span class="title">Host Rating:</span> {{this.data.profileHR}}</p>
-                <p>
-                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p> -->
+                
                 <div v-if="!showEvent">
                     <h4>Friends:</h4>
                     <ul >
@@ -73,7 +132,7 @@
         </b-row>
         <b-row>
             <eventdiv v-if="showEvent" v-bind:event="event" v-bind:name="this.data.profileName" v-bind:addFriend="this.addFriend" v-bind:isFriend="this.isFriend"></eventdiv>
-        </b-row>
+        </b-row> -->
          
 
     </b-container>

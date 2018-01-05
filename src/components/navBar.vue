@@ -1,17 +1,17 @@
 <template>
-    <div>
-        
-        <b-nav class="topnav" id="myTopnav">
-            
-    <h4>PotLucky</h4>
-    
+    <div class="row">
+        <div class="col-sm-12">
+            <b-nav class="topnav" id="myTopnav">
+                <h4>PotLucky</h4>
+                <router-link to="/">Home</router-link>
+                <router-link to="/profile">Dashboard</router-link>
+                <router-link to="/login">Login/signup</router-link>
+                <router-link to="/browse">Browse</router-link>
+                <router-link to="/create">Create</router-link>
+            </b-nav>
 
-            <router-link to="/">Home</router-link>
-            <router-link to="/profile">Dashboard</router-link>
-            <router-link to="/login">Login/signup</router-link>
-            <router-link to="/browse">Browse</router-link>
-            <router-link to="/create">Create</router-link>
-        </b-nav>
+        </div>
+        
 
     </div>
 </template>
