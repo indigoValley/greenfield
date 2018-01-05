@@ -32,7 +32,7 @@ export default {
 
 <style scoped>
 .topnav {
-    background-color: #333;
+    background-color: rgba(247, 111, 48, 0.781);
     overflow: hidden;
    padding-top: 40px; 
     
@@ -56,7 +56,7 @@ h4 {
 
 /* Change the color of links on hover */
 .topnav a:hover {
-    background-color: #ddd;
+    background-color: rgb(240, 104, 41);
     color: black;
 }
 
