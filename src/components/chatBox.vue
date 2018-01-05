@@ -4,30 +4,27 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-
           <div class="modal-header">
             <slot name="header">
               default header
             </slot>
           </div>
-
           <div class="modal-body">
             <slot name="body">
               <div id="chat-box">
-        <div id="chat-window">
+          <div id="chat-window">
             <div id="output"></div>
-            <div id="feedback"></div>
-        </div>
-        <p id="handle">{{name}}</p>
-        <input id="message" type="text" placeholder="Message">
-        <b-btn id="send">Send</b-btn>
-    </div>
-            </slot>
           </div>
-
-          <div class="modal-footer">
+            <div id="feedback"></div>
+          <p id="handle">{{name}}</p>
+          <input id="message" type="text" placeholder="Message">
+          <b-btn id="send" class="btn btn-warning">Send</b-btn>
+          </div>
+            </slot>
+            </div>
+            <div class="modal-footer">
             <slot name="footer">
-              <b-btn class="modal-default-button" @click="$emit('close')">
+              <b-btn id="close" class="modal-default-button" @click="$emit('close')">
                 Close chat
               </b-btn>
             </slot>
@@ -129,20 +126,30 @@ h2 {
 #chat-window {
     height: 300px;
     overflow: auto;
+    position: relative;
     background: #f9f9f9;
 }
 
 #output p {
+    overflow: auto;
+    position: absolute;
+    bottom: 0;
     padding: 14px 0px;
     margin: 0 20px;
     border-bottom: 1px solid #e9e9e9;
     color: #555;
+    max-height: 400px;
 }
 
 #feedback p {
+    overflow: auto;
+    position: absolute;
+    bottom: 0;
     color: #aaa;
     padding: 14px 0px;
     margin: 0 20px;
+    height: 20px;
+    max-height: 400px;
 }
 
 #output strong {
@@ -192,13 +199,13 @@ input {
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  box-shadow: 0 10px 20px rgba(247, 111, 48, 0.781);
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
 .modal-header h3 {
-  margin-top: 0;
+  margin-top: 2;
   color: #42b983;
 }
 
@@ -208,7 +215,10 @@ input {
 
 .modal-default-button {
   float: right;
+  background-color: rgba(247, 111, 48, 0.781);
 }
+
+
 
 /*
  * The following styles are auto-applied to elements with
