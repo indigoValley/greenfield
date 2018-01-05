@@ -1,16 +1,17 @@
 <template>
     <b-container>
+        <br>
         <b-row>
             <b-col>
                 <input v-model="query" placeholder="find a potluck">
-                <b-button size="sm" variant="outline-warning" :query="query" v-on:click="potLuckies.push(query)">
+                <b-button size="sm" variant="outline-warning" :query="query" v-on:click="search(query)">
                 Search
                 </b-button>
                 <br>
                 <br>
                 PotLuckies
                 <ul id="example-1">
-                    <li v-for="pot in potLuckies">{{pot}}</li>
+                    <li v-for="pot in potLuckies">{{pot.Name}}</li>
                 </ul>
             </b-col>
             <b-col>
@@ -41,11 +42,21 @@ export default {
             bounds: null,
             markers: [],
 
-            potLuckies: ['hot doggin', 'pizza party', 'borsht bonnanza', 'pickle parade', 'apertif afterparty']
+            potLuckies: [],
         }
     },
     methods:{
-
+        search: function(query) {
+            console.log('searching for ', query);
+            console.log('and pushing to potLuckies')
+            this.potLuckies.push(query)
+            this.$http.get('/browse')
+                .then(response => {
+                    console.log('response.body!!!!!!!!!\n', response.body);
+                    let matches = response.body.filter(event => event.Name.toLowerCase().includes(query.toLowerCase()));
+                    this.potLuckies = matches;
+                })
+        }
     },
 
     mounted: function() {
@@ -62,6 +73,7 @@ export default {
         this.$http.get('/browse')
             .then(function(response) {
                 let arr = [];
+                this.potLuckies = response.body;
                 response.body.forEach(function(element) {
                     let tempLat = element.LocationLat;
                     let tempLong = element.LocationLng;
