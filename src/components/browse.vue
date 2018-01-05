@@ -86,10 +86,14 @@ export default {
                 .then(response => {
                     let matches = response.body.filter(event => event.Name.toLowerCase().includes(query.toLowerCase()));
                     this.potLuckies = matches.sort((a, b) => {
-                        let A = a.Date.split('-').join('');
-                        let B = b.Date.split('-').join('');
-                        return A > B ? 1 : A < B ? -1 : 0;
-                    });
+                    let aTime = a.Time.split(':').join('');
+                    let bTime = b.Time.split(':').join('');
+                    return aTime > bTime ? -1 : aTime < bTime ? 1 : 0;
+                }).sort((a, b) => {
+                    let A = a.Date.split('-').join('');
+                    let B = b.Date.split('-').join('');
+                    return A > B ? 1 : A < B ? -1 : 0;
+                });
                     this.getMapPoints(this.potLuckies);
                     console.log('matches', matches)
                 })
@@ -161,10 +165,14 @@ export default {
         this.$http.get('/browse')
             .then(function(response) {
                 this.potLuckies = response.body.sort((a, b) => {
-                        let A = a.Date.split('-').join('');
-                        let B = b.Date.split('-').join('');
-                        return A > B ? 1 : A < B ? -1 : 0;
-                    });
+                    let aTime = a.Time.split(':').join('');
+                    let bTime = b.Time.split(':').join('');
+                    return aTime > bTime ? -1 : aTime < bTime ? 1 : 0;
+                }).sort((a, b) => {
+                    let A = a.Date.split('-').join('');
+                    let B = b.Date.split('-').join('');
+                    return A > B ? 1 : A < B ? -1 : 0;
+                });
                 this.getMapPoints(this.potLuckies);
             })
 
