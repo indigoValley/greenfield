@@ -1,5 +1,17 @@
 <template>
     <b-container id="Event">
+        <!-- ----------------------------NEW STUFF------------------------ -->
+        <h1>{{event.Name}}</h1>
+        <div class="row">
+            <div class="col-sm-">
+
+            </div>
+
+            <div class="col">
+
+            </div>
+        </div>
+        <!-- --------------------------------OLD STUFF-------------------------- -->
         <b-row>
             <b-col>
                 <div cols='8' id="app">
@@ -11,7 +23,6 @@
                         <h3 slot="header">{{event.Name}}</h3>
                     </chat>
                 </div>
-                <p>Party Name: {{event.Name}}</p>
                 <p>Host: {{event.Host}}</p>
                 <p>Address: {{event.Address}}</p>
                 <p>Time: {{event.Time}}</p>
