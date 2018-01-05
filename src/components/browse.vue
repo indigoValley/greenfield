@@ -34,7 +34,10 @@
                 </div>
             </b-col>
             <b-col>
-                <div class="google-map" :id="mapName" style="position: fixed" ></div>
+                <div style="position: fixed;">
+                    <div class="google-map" :id="mapName"></div>
+
+                </div>
             </b-col>
         </b-row>
     </b-container>
@@ -164,7 +167,5 @@ export default {
 .google-map {
     width: 500px;
     height: 500px;
-    margin: 0 auto;
-    background: gray;
 }
 </style>
