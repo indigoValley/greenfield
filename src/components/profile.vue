@@ -20,15 +20,13 @@
                     Email:<span class="card-title">{{this.data.profileEmail}}</span>
                     Current City: <span class="card-title">{{this.data.profileCity}}</span>
                     Date of birth: <span class="card-title">{{this.data.birthday}}</span>
-                    Host Rating: </span class="card-title">{{this.data.profileHR}}</span>
-                    Guest Rating: </span class="card-title">{{this.data.profileCR}}</span>
+                    Host Rating: <span class="card-title">{{this.data.profileHR}}</span>
+                    Guest Rating: <span class="card-title">{{this.data.profileCR}}</span>
                     </div>
                 </div>
             </div>
         </b-row>
         <b-row>
-<<<<<<< d97770d2f13c85ca127c70210a8c413742cd8cb6
-=======
             <!-- profile info -->
             <b-col cols="9" class="info">
                 <!-- <p>
@@ -37,15 +35,14 @@
                     <span class="title">Current City:</span> {{this.data.profileCity}}</p>
                 <p>
                     <span class="title">Date of birth:</span> {{this.data.birthday}}</p> -->
-                <p>
+                <!-- <p>
                     <span class="title">Host Rating:</span> {{this.data.profileHR}}</p>
                 <p>
-                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p>
-                <div>
-                <p>
-                    <span class="title">Friends:</span></p>
-                    <ul v-if="!showEvent">
-                        <li v-for="friend in this.data.friends">
+                    <span class="title">Guest Rating:</span> {{this.data.profileCR}}</p> -->
+                <div v-if="!showEvent">
+                    <h4>Friends:</h4>
+                    <ul >
+                        <li v-for="(friend, index) in this.data.friends" v-bind:key="index">
                             {{friend}}
                             <b-button id="removeFriend" @click="removeFriend(friend)">Remove Friend</b-button>
                         </li>
@@ -53,13 +50,12 @@
                 </div>
 
             </b-col>
->>>>>>> [friendslist] add friendslist to front end
             <b-col class='profile-buttons'>
                 <h4>Notifications:</h4>
                 <ul>
-                    <li v-for="(notification, index) in this.data.notifications" v-bind:notification="notification">
+                    <li v-for="(notification, index) in this.data.notifications" v-bind:notification="notification" v-bind:key="index">
                         {{notification}}
-                         <br>
+                        <br>
                         <b-button id="approve" @click="approveRequest(notification, index)">Approve this request</b-button>
                         <b-button id="approve" @click="denyRequest(notification, index)">Deny this request</b-button> 
                     </li>
