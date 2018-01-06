@@ -37,7 +37,8 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 {{event.Name}}<br>
-                                <small>{{event.Date}}</small>
+                                <small>{{event.Date}}</small><br>
+                                <small>{{event.Time}}</small>
                             </div>
                             <div class="col-sm-1">
                                 <button class="btn btn-sm btn-info" align="right" v-on:click='sEvent(event)'>Event Details</button>
@@ -182,7 +183,15 @@ export default {
             });
         this.$http.get('/userevents')
             .then(function(response) {
-                this.data.events = response.body;
+                this.data.events = response.body.sort((a, b) => {
+                    let aTime = a.Time.split(':').join('');
+                    let bTime = b.Time.split(':').join('');
+                    return aTime > bTime ? -1 : aTime < bTime ? 1 : 0;
+                }).sort((a, b) => {
+                    let A = a.Date.split('-').join('');
+                    let B = b.Date.split('-').join('');
+                    return A > B ? 1 : A < B ? -1 : 0;
+                });
             }, (err) => {
                 this.$router.push('/login');
             })
