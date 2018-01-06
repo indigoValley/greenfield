@@ -155,20 +155,20 @@ export default {
                 if (!response.body.length) {
                     return;
                 }
-                console.log(response.body);
                 let notificationDataPairs = [];
                 const notifications = response.body;
                 let formattedNotifications = [];
-                notifications.forEach((notification) => {
-                    if (notification !== '') {
-                        let split = notification.split(':');
-                        notificationDataPairs.push(split);
-                        formattedNotifications.push(`${split[1]} wants to join your ${split[0]} party!`);
-                    }
-                })
+                if (Array.isArray(notifications)) {
+                    notifications.forEach((notification) => {
+                        if (notification !== '') {
+                            let split = notification.split(':');
+                            notificationDataPairs.push(split);
+                            formattedNotifications.push(`${split[1]} wants to join your ${split[0]} party!`);
+                        }
+                    });
+                }
 
                 this.data.notificationData = notificationDataPairs;
-                console.log(formattedNotifications);
                 this.data.notifications = formattedNotifications.length ? formattedNotifications : [];
             })
         this.getFriends();
