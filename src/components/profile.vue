@@ -8,8 +8,6 @@
                     <div class="card-background">
                         <img class="card-bkimg" alt="" src="https://scontent-dft4-3.xx.fbcdn.net/v/t1.0-9/10447708_10105496802291065_3147331436798292945_n.jpg?oh=ff797fce9d955f7447e90ee529022d1c&oe=5A420D4C">
                     </div>
-                    <!-- <div class="card-info">
-                    <span class="card-title">{{this.data.profileName}}</span> -->
                     <div class="useravatar">
                     <span class="card-title"><b>{{this.data.profileName}}</b></span>
                     <br>
@@ -92,49 +90,6 @@
                 v-bind:isFriend="this.isFriend"
             ></eventdiv>
         </div>
-
-        <!--             OLD STUFF BELOW          -->
-        <!-- <b-row>
-
-            <b-col cols="9" class="info">
-                
-                <div v-if="!showEvent">
-                    <h4>Friends:</h4>
-                    <ul >
-                        <li v-for="(friend, index) in this.data.friends" v-bind:key="index">
-                            {{friend}}
-                            <b-button id="removeFriend" @click="removeFriend(friend)">Remove Friend</b-button>
-                        </li>
-                    </ul>
-                </div>
-
-            </b-col>
-            <b-col class='profile-buttons'>
-                <h4>Notifications:</h4>
-                <ul>
-                    <li v-for="(notification, index) in this.data.notifications" v-bind:notification="notification" v-bind:key="index">
-                        {{notification}}
-                        <br>
-                        <b-button id="approve" @click="approveRequest(notification, index)">Approve this request</b-button>
-                        <b-button id="approve" @click="denyRequest(notification, index)">Deny this request</b-button> 
-                    </li>
-                </ul>
-
-                <h4 v-if="!showEvent">Upcoming Events:</h4>
-                <b-btn v-if="showEvent" v-on:click='showEvent = !showEvent'> Hide Event Details</b-btn>
-                <ul v-if="!showEvent">
-                    <li v-for="event in this.data.events" v-bind:key="event.id">
-                        {{event.Name}}
-                        <b-btn v-on:click='sEvent(event)'>Show Event Details</b-btn>
-                    </li>
-                </ul>
-            </b-col>
-        </b-row>
-        <b-row>
-            <eventdiv v-if="showEvent" v-bind:event="event" v-bind:name="this.data.profileName" v-bind:addFriend="this.addFriend" v-bind:isFriend="this.isFriend"></eventdiv>
-        </b-row> -->
-         
-
     </b-container>
 </template>
 
@@ -362,89 +317,4 @@ export default {
     -webkit-border-radius: 0 !important;
 }
 
-
-
-
-/* body {
-    margin-top: 20px;
-}
-
-.profile {
-    width: 100%;
-    position: relative;
-    background: #FFF;
-    border: 1px solid #D5D5D5;
-    padding-bottom: 5px;
-    margin-bottom: 20px;
-}
-
-.profile .image {
-    display: block;
-    position: relative;
-    z-index: 1;
-    overflow: hidden;
-    text-align: center;
-    border: 5px solid #FFF;
-}
-
-.profile .user {
-    position: relative;
-    padding: 0px 5px 5px;
-}
-
-.profile .user .avatar {
-    position: absolute;
-    left: 20px;
-    top: -85px;
-    z-index: 2;
-}
-
-.profile .user h2 {
-    font-size: 16px;
-    line-height: 20px;
-    display: block;
-    float: left;
-    margin: 4px 0px 0px 135px;
-    font-weight: bold;
-}
-
-.profile .user .actions {
-    float: right;
-}
-
-.profile .user .actions .btn {
-    margin-bottom: 0px;
-}
-
-.profile .info {
-    float: left;
-    margin-left: 20px;
-}
-
-.img-profile {
-    height: 100px;
-    width: 100px;
-}
-
-.img-cover {
-    width: 800px;
-    height: 300px;
-}
-
-@media (max-width: 768px) {
-    .btn-responsive {
-        padding: 2px 4px;
-        font-size: 80%;
-        line-height: 1;
-        border-radius: 3px;
-    }
-}
-
-@media (min-width: 769px) and (max-width: 992px) {
-    .btn-responsive {
-        padding: 4px 9px;
-        font-size: 90%;
-        line-height: 1.2;
-    }
-} */
 </style>

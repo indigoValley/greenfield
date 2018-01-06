@@ -39,39 +39,6 @@
                 </template>
             </div>
         </div>
-        <!-- --------------------------------OLD STUFF-------------------------- -->
-        <!-- <b-row>
-            <b-col>
-                <div cols='8' id="app">
-                </div>
-                <p>Host: {{event.Host}}</p>
-                <p>Address: {{event.Address}}</p>
-                <p>Time: {{event.Time}}</p>
-                <p>Date: {{event.Date}}</p>
-                <p>Guests:</p>
-                
-    <ul v-if="event.Contributor_List">
-        <li v-for="guest in event.Contributor_List.split(' ')" v-bind:key="guest">
-            {{guest}}
-            <br>
-            <b-button v-if="!isFriend(guest)" id="addFriend" @click="addFriend(guest)">Add Friend</b-button>
-        </li>
-    </ul>
-
-                 <p>Recipe: {{meal.label}}</p>
-                <ul>
-                    <li v-for="Ingredient in meal.ingredientLines" v-bind:key="Ingredient.id">{{Ingredient}}</li>
-                </ul>
-                
-
-            </b-col>
-            <b-col>
-                <template>
-                    <div class="google-map" :id="mapName">
-                    </div>
-                </template>
-            </b-col>
-        </b-row> -->
     </b-container>
 </template>
 

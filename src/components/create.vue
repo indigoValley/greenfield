@@ -31,9 +31,6 @@
         </div>
     </b-col>
 </b-row>
-<!-- <b-row>
-    <recipes v-if="populateList" v-bind:meals="meals" v-bind:populateList="populateList" v-on:hideList="hideList($event)"></recipes>
-</b-row> -->
     </b-jumbotron>
 </template>
 <script>
