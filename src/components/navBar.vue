@@ -9,10 +9,7 @@
                 <router-link to="/browse">Browse</router-link>
                 <router-link to="/create">Create</router-link>
             </b-nav>
-
         </div>
-        
-
     </div>
 </template>
 
@@ -34,7 +31,7 @@ export default {
 .topnav {
     background-color: rgba(247, 111, 48, 0.781);
     overflow: hidden;
-   padding-top: 40px; 
+    /* padding-top: 20px;  */
     
 }
 
@@ -51,7 +48,7 @@ export default {
 
 h4 {
     color: #f2f2f2;
-    padding: 14px 16px;
+    padding: 10px 16px;
 }
 
 /* Change the color of links on hover */
