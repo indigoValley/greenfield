@@ -66,6 +66,7 @@ export default {
     },
     methods: {
         signUp() {
+            // instead of random pictures for profile, option to enter upload photo or enter link to one
             this.$http.get('https://tinyfac.es/api/users')
              .then(function(response) {
                 for( var i = 0; i < response.body.length; i++){
@@ -122,7 +123,7 @@ export default {
             },
         dob() {
             let re = /^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([2-9])(\d{1})|(20)([01])(\d{1})|([8901])(\d{1})))$/
-            return re.test(this.signUpForm.dob)? 'valid' : 'invalid';
+            return re.test(this.signUpForm.dob) ? 'valid' : 'invalid';
             },
         city() {
             return this.signUpForm.password.length > 6 ? 'valid' : 'invalid';

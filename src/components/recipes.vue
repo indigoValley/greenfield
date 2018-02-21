@@ -24,7 +24,6 @@ export default {
     data() {
         return {
             mealId: ''
-
         }
     },
     methods: {
@@ -33,13 +32,10 @@ export default {
             // console.log(this.mealId)
             this.$emit('hideList', [false, id])
             
-
         }
-
     }
 }
 </script>
 
 <style >
-
 </style>
